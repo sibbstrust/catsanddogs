@@ -1,0 +1,6 @@
+---
+
+- name: Ensure all k8s pods are ready
+  shell: "kubectl wait -n kube-system --for=condition=Ready --timeout=3m --all pods"
+  run_once: True
+  changed_when: False

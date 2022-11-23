@@ -1,0 +1,13 @@
+- name: Ensure basic packages are installed
+  apt:
+    name:
+      - sudo
+      - curl
+      - apt-transport-https
+      - software-properties-common
+      - ca-certificates
+      - gnupg-agent
+      - rsync
+      - net-tools
+    state: present
+    update_cache: yes

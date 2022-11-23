@@ -1,0 +1,44 @@
+---
+
+- name: Create configuration directory
+  file:
+    path: /opt/voting-application
+    state: directory
+
+- name: Synchronize helm charts and namespace files
+  synchronize:
+    src: "{{ item }}"
+    dest: /opt/voting-application
+    archive: no
+    delete: yes
+    recursive: yes
+    rsync_timeout: 120
+  with_items:
+    - charts
+    - voting-application-ns.yaml
+  register: vote_app_k8s_resources
+
+
+- name: Check if voting-app is deployed
+  shell: helm -n voting-application list -f "^voting-app$" -q | wc -l
+  register: vote_app_chart_check
+  changed_when: False
+
+- name: Set control variables
+  set_fact:
+    vote_app_run_helm_upgrade: >-
+      {{  vote_app_k8s_resources.changed or
+      vote_app_chart_check.stdout == '0' }}
+
+
+- name: Create namespace for voting application
+  shell: kubectl apply -f /opt/voting-application/voting-application-ns.yaml
+  when: vote_app_run_helm_upgrade
+
+- name: Deploy Voting-application
+  shell: |
+    helm dep update ./charts/voting-application
+    helm upgrade -i --namespace vote --wait voting-app ./charts/voting-application
+  args:
+    chdir: /opt/voting-application
+  when: vote_app_run_helm_upgrade | bool

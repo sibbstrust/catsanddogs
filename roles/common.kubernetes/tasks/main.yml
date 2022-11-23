@@ -1,0 +1,43 @@
+---
+
+- name: Add kubernetes apt key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add kubernetes apt repo
+  apt_repository:
+    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+    filename: kubernetes
+    state: present
+
+- name: Install kubernetes packages
+  apt:
+    name:
+      - kubelet=1.22.0-00
+      - kubeadm=1.22.0-00
+      - kubectl=1.22.0-00
+      - kubernetes-cni
+    state: present
+    update_cache: yes
+
+- name: Add docker apt key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable"
+    state: present
+
+- name: Install docker
+  apt:
+    name: docker-ce
+    state: present
+    update_cache: true
+
+- name: Enabling Docker
+  service:
+    name: docker
+    enabled: true

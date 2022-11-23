@@ -1,0 +1,8 @@
+- hosts: all
+  roles:
+    - common.apt-packages
+    - common.kubernetes
+    - install.minikube
+    - kubernetes.checks
+    - ansible-role-helm-master
+    - deploy.voting-app
