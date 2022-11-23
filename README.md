@@ -34,7 +34,7 @@ ssh-copy-id vagrant@192.168.60.5
 ```
 When prompted, enter vagrant (that's the password for user vagrant).
 
-Run below command to confirm you can now ssh to VM without issues:
+Run below command to confirm you can now ssh to VM without being prompted to enter password:
 ```
 ssh vagrant@192.168.60.5
 ```
