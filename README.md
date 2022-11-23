@@ -15,18 +15,18 @@ WorkStation/Host System should  meet below requirements:
 - [Virtual Box](https://www.virtualbox.org/wiki/Downloads)
 - [Vagrant](https://www.vagrantup.com/docs/installation)
 
-### VM Provisioning
-## Create Virtual Machine
+### Create Virtual Machine
 The VM will be using Ubuntu OS.
-The vm will be created with private a IP, VM name is as below:
-
+The vm will be created with a private IP, VM name is as below:
+```
 VM name: catdogs
+```
 
 To spin up the virtual machine, run the following command at the root level of the project directory:
 ```
 vagrant up
 ```
-##Accessing VMs 
+#### Accessing VMs 
 Once the VM is up and running, you can check status with `vagrant status` or by connecting using `vagrant ssh catdogs`. 
 Once you've confirmed that the virtual machine is running with no issues, copy over your personal generated SSH keys from your workstation/host to the catdogs(VM we provisioned with Vagrant) with the following command:
 ```
@@ -38,15 +38,14 @@ Run below command to confirm you can now ssh to VM without issues:
 ```
 ssh vagrant@192.168.60.5
 ```
-
-### Provision/Create Minikube Kubernetes Cluster and Deploy Application Stack using Ansible
+## Provision/Create Minikube Kubernetes Cluster and Deploy Application Stack using Ansible
 To provision the Minikube Kubernetes Cluster and Deploy Application Stack using Ansible, run the following command at the root level of the project directory:
 
- ```bash
+```
 ansible-playbook playbook.yaml
- ```
+```
 
-## Minukube Cluster Verification (OPTIONAL)
+### Minukube Cluster Verification (OPTIONAL)
 Loging to the catdogs VM hosting the cluster using below command:
 ```
 vagrant ssh catdogs
@@ -61,22 +60,22 @@ sudo -i
 ```
 Then run below sample verification commands:
 ```
-sudo kubectl get nodes
-sudo kubectl get all -n vote
-sudo helm ls
+kubectl get nodes
+kubectl get all -n vote
+helm ls
 ```
 
-###  Accessing the application
+## Accessing the application
 
 #### Voting
 
- ```bash
+ ```
 <server-ip>:31000
  ```
 
 #### Result
 
- ```bash
+ ```
 <server-ip>:31001
  ```
 
